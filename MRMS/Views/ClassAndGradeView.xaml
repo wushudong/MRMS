@@ -1,0 +1,108 @@
+﻿<UserControl x:Class="MRMS.Views.ClassAndGradeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             xmlns:navigation="clr-namespace:Telerik.Windows.Controls.Navigation;assembly=Telerik.Windows.Controls.Navigation"
+             xmlns:maskedInput="clr-namespace:Telerik.Windows.Controls.MaskedInput;assembly=Telerik.Windows.Controls.Input"
+             xmlns:local="clr-namespace:MRMS.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <telerik:RadToolBar Grid.Row="0">
+            <telerik:RadButton Content="添加" Command="{Binding AddCommand}" Width="50" Height="28" Margin="5"/>
+            <telerik:RadButton Content="修改" Command="{Binding EditCommand}" IsEnabled="{Binding CanEditItem}" Width="50" Height="28" Margin="5"/>
+            <telerik:RadButton Content="删除" Command="{Binding DeleteCommand}" IsEnabled="{Binding CanEditItem}" Width="50" Height="28" Margin="5"/>
+            <telerik:RadToolBarSeparator />
+            <telerik:Label Content="院系名称:"/>
+            <telerik:RadComboBox ItemsSource="{Binding Faculties}" 
+                DisplayMemberPath="FacultyName" 
+                SelectedValue="{Binding FacultyId}" 
+                SelectedValuePath="Id" 
+                EmptyText="请选择"
+				ClearSelectionButtonContent="清除"
+				ClearSelectionButtonVisibility="Visible"
+                Width="100" Height="28" Margin="5"/>
+            <telerik:Label Content="专业名称:"/>
+            <TextBox Text="{Binding MajorName}" CharacterCasing="Upper" Width="100" Height="28" Margin="5"/>
+            <telerik:Label Content="班级名称:"/>
+            <TextBox Text="{Binding ClassAndGradeName}" CharacterCasing="Upper" Width="100" Height="28" Margin="5"/>
+            <telerik:Label Content="入学日期"/>
+            <TextBox Text="{Binding EntranceDate}" CharacterCasing="Upper" Width="100" Height="28" Margin="5"/>
+            <telerik:Label Content="毕业日期:"/>
+            <TextBox Text="{Binding GraduationDate}" CharacterCasing="Upper" Width="100" Height="28" Margin="5"/>
+            <telerik:RadButton Content="查询" Command="{Binding QueryCommand}" Width="50" Height="28" Margin="5"/>
+        </telerik:RadToolBar>
+        <telerik:RadGridView x:Name="grid" Grid.Row="1" GroupRenderMode="Flat"
+							 ItemsSource="{Binding Items}"
+                             SelectedItem="{Binding SelectedItem}"
+							 IsFilteringAllowed="False"
+							 AutoGenerateColumns="False"
+							 CanUserFreezeColumns="True"
+                             ShowGroupPanel="False"
+							 FrozenColumnCount="3">
+            <telerik:RadGridView.Columns>
+                <telerik:GridViewColumn Header="修改" HeaderTextAlignment="Center">
+                    <telerik:GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <telerik:RadButton Content="修改" 
+                        Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}, Mode=FindAncestor}}"
+                        CommandParameter="{Binding}" />
+                        </DataTemplate>
+                    </telerik:GridViewColumn.CellTemplate>
+                </telerik:GridViewColumn>
+                <telerik:GridViewColumn Header="删除" HeaderTextAlignment="Center">
+                    <telerik:GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <telerik:RadButton Content="删除" 
+                        Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}, Mode=FindAncestor}}"
+                        CommandParameter="{Binding}" />
+                        </DataTemplate>
+                    </telerik:GridViewColumn.CellTemplate>
+                </telerik:GridViewColumn>
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding Faculty.FacultyName}"
+                                            HeaderTextAlignment="Center" 
+											Header="院系名称"
+											IsGroupable="False"
+                                            IsReadOnly="True"
+											Width="80" />
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding MajorName}"
+                                            HeaderTextAlignment="Center" 
+											Header="专业名称"
+											IsGroupable="False"
+                                            IsReadOnly="True"
+											Width="120" />
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding ClassAndGradeName}"
+                                            HeaderTextAlignment="Center" 
+											Header="班级名称"
+											IsGroupable="False"
+                                            IsReadOnly="True"
+											Width="120" />
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding NumberOfStudents}" 
+                                            HeaderTextAlignment="Center"
+											Header="班级人数"
+											IsGroupable="False"
+                                            IsReadOnly="True"
+											Width="80" />
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding EntranceDate}"
+                                            HeaderTextAlignment="Center" 
+											Header="入学日期"
+											IsGroupable="False"
+                                            IsReadOnly="True"
+											Width="120" />
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding GraduationDate}"
+                                            HeaderTextAlignment="Center" 
+											Header="毕业日期"
+											IsGroupable="False"
+                                            IsReadOnly="True"
+											Width="120" />
+            </telerik:RadGridView.Columns>
+
+        </telerik:RadGridView>
+    </Grid>
+</UserControl>

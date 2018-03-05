@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="MRMS.Views.ClassroomTreeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" 
+             xmlns:local="clr-namespace:MRMS.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <DataTemplate x:Key="ClassRoomTemplate">
+                <StackPanel Orientation="Horizontal">
+                    <!--<Image Source="{Binding Image}" Margin=" 0,0,6,0" />-->
+                <CheckBox IsChecked="{Binding IsChecked}"/>
+                <TextBlock Text="{Binding RoomNum}" />
+            </StackPanel>
+            </DataTemplate>
+
+        <HierarchicalDataTemplate x:Key="ClassroomBuildingTemplate" ItemTemplate="{StaticResource ClassRoomTemplate}" ItemsSource="{Binding ClassRooms}">
+            <StackPanel Orientation="Horizontal">
+                <!--<Image Source="{Binding Image}" Margin=" 0,0,6,0" />-->
+                <CheckBox IsChecked="{Binding IsChecked}"/>
+                <TextBlock Text="{Binding BuildingName}" FontWeight="Bold" />
+                <TextBlock Text="(" />
+                <TextBlock Text="{Binding ClassRooms.Count}" />
+                <TextBlock Text=")" />
+            </StackPanel>
+        </HierarchicalDataTemplate>
+    </UserControl.Resources>
+    <Grid>
+        <telerik:RadTreeView x:Name="LeftNavigationTreeView" 
+                                 ItemsSource="{Binding ClassroomBuildings}"
+                                 ItemTemplate="{StaticResource ClassroomBuildingTemplate}"
+                                 SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                                 telerik:AnimationManager.IsAnimationEnabled ="False"
+                                 PreviewSelectionChanged="OnTreeViewPreviewSelectionChanged"
+                                 Margin="0 0 0 0">
+        </telerik:RadTreeView>
+    </Grid>
+</UserControl>

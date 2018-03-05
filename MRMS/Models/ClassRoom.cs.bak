@@ -1,0 +1,182 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.Serialization;
+using System.Text;
+
+namespace MRMS.Models
+{
+    [DataContract]
+    public class ClassRoom : NamedModel, IEditableObject
+    {
+        private ClassRoom back;
+        [DataMember]
+        public int Id { get; set; }
+
+        private string _RoomNum;
+        [DataMember]
+        [Required]
+        [Display(Name = "教室编号")]
+        public string RoomNum
+        {
+            get
+            {
+                return this._RoomNum;
+            }
+            set
+            {
+                if (!Equals(this._RoomNum, value))
+                {
+                    this._RoomNum = value;
+                    this.OnPropertyChanged("RoomNum");
+                }
+            }
+        }
+        private string _TerminalId;
+        [DataMember]
+        [Display(Name = "终端编号")]
+        public string TerminalId
+        {
+            get
+            {
+                return this._TerminalId;
+            }
+            set
+            {
+                if (!Equals(this._TerminalId, value))
+                {
+                    this._TerminalId = value;
+                    this.OnPropertyChanged("TerminalId");
+                }
+            }
+        }
+        private string _TerminalIp;
+        [DataMember]
+        [Display(Name = "终端IP")]
+        public string TerminalIp
+        {
+            get
+            {
+                return this._TerminalIp;
+            }
+            set
+            {
+                if (!Equals(this._TerminalIp, value))
+                {
+                    this._TerminalIp = value;
+                    this.OnPropertyChanged("TerminalIp");
+                }
+            }
+        }
+        private string _VedioAddress;
+        [DataMember]
+        [Display(Name = "视频地址")]
+        public string VedioAddress
+        {
+            get
+            {
+                return this._VedioAddress;
+            }
+            set
+            {
+                if (!Equals(this._VedioAddress, value))
+                {
+                    this._VedioAddress = value;
+                    this.OnPropertyChanged("VedioAddress");
+                }
+            }
+        }
+        private string _IdentifyMode;
+        [DataMember]
+        [Display(Name = "使用方式")]
+        public string IdentifyMode
+        {
+            get
+            {
+                return this._IdentifyMode;
+            }
+            set
+            {
+                if (!Equals(this._IdentifyMode, value))
+                {
+                    this._IdentifyMode = value;
+                    this.OnPropertyChanged("IdentifyMode");
+                }
+            }
+        }
+
+        private Meta.Vlc.Interop.Media.MediaState _VedioState;
+        public Meta.Vlc.Interop.Media.MediaState VedioState
+        {
+            get
+            {
+                return this._VedioState;
+            }
+            set
+            {
+                if (!Equals(this._VedioState, value))
+                {
+                    this._VedioState = value;
+                    this.OnPropertyChanged("VedioState");
+                }
+            }
+        }
+        private Meta.Vlc.Wpf.VlcPlayer _VlcPlayer;
+        public Meta.Vlc.Wpf.VlcPlayer VlcPlayer
+        {
+            get
+            {
+                return this._VlcPlayer;
+            }
+            set
+            {
+                if (!Equals(this._VlcPlayer, value))
+                {
+                    this._VlcPlayer = value;
+                    this.OnPropertyChanged("VlcPlayer");
+                }
+            }
+        }
+        private ClassroomBuilding _ClassroomBuilding;
+        [DataMember]
+        [Display(Name = "教学楼")]
+        [Required]
+        public ClassroomBuilding ClassroomBuilding
+        {
+            get
+            {
+                return this._ClassroomBuilding;
+            }
+            set
+            {
+                if (!Equals(this._ClassroomBuilding, value))
+                {
+                    this._ClassroomBuilding = value;
+                    this.OnPropertyChanged("ClassroomBuilding");
+                }
+            }
+        }
+
+        public void BeginEdit()
+        {
+            back = this.MemberwiseClone() as ClassRoom;
+        }
+
+        public void EndEdit()
+        {
+
+        }
+
+        public void CancelEdit()
+        {
+            PropertyInfo[] properties = typeof(ClassRoom).GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance);
+            foreach (PropertyInfo property in properties)
+            {
+                property.SetValue(this, property.GetValue(back, null), null);
+            }
+        }
+    }
+}

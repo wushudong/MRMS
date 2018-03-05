@@ -1,0 +1,389 @@
+﻿<UserControl x:Class="MRMS.Views.ClassroomMonitorView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+        xmlns:navigation="clr-namespace:Telerik.Windows.Controls.Navigation;assembly=Telerik.Windows.Controls.Navigation"
+        xmlns:local="clr-namespace:MRMS.Views"
+        xmlns:localConverters="clr-namespace:MRMS.Converters">
+    <UserControl.Resources>
+        <localConverters:SwitchingConverter x:Key="switchingConverter" />
+        <localConverters:SystemImageConverter x:Key="systemImageConverter" />
+        <DataTemplate x:Key="contentTemplate">
+            <telerik:RadFluidContentControl ContentChangeMode="Manual"
+			                                State="Normal"
+			                                TransitionDuration="0:0:.5">
+                <telerik:RadFluidContentControl.Content>
+                    <Border Background="Black">
+                        <Grid Margin="8 8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Image Height="24" Width="24" Source="{Binding System, Converter={StaticResource systemImageConverter}, ConverterParameter=System}" Grid.Row="0" Grid.Column="0" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 0 0"/>
+                            <Image Height="24" Width="24" Source="{Binding Projector, Converter={StaticResource systemImageConverter}, ConverterParameter=Projector}" Grid.Row="0" Grid.Column="1" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 0 0"/>
+                            <Image Height="24" Width="24" Source="{Binding Projection_Screen, Converter={StaticResource systemImageConverter}, ConverterParameter=Projection_Screen}" Grid.Row="0" Grid.Column="2" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 0 0"/>
+                            <Image Height="24" Width="24" Source="{Binding Computer_Status, Converter={StaticResource systemImageConverter}, ConverterParameter=Computer_Status}" Grid.Row="0" Grid.Column="3" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 0 0"/>
+                            <Image Height="24" Width="24" Source="{Binding Lock_Status, Converter={StaticResource systemImageConverter}, ConverterParameter=Lock_Status}" Grid.Row="1" Grid.Column="0" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 0 0"/>
+                            <Image Height="24" Width="24" Source="{Binding AC_Relay1, Converter={StaticResource systemImageConverter}, ConverterParameter=AC_Relay1}" Grid.Row="1" Grid.Column="1" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 0 0"/>
+                            <Image Height="24" Width="24" Source="{Binding OC1, Converter={StaticResource systemImageConverter}, ConverterParameter=OC1}" Grid.Row="1" Grid.Column="2" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 0 0"/>
+                            <Image Height="24" Width="24" Source="{Binding OC2, Converter={StaticResource systemImageConverter}, ConverterParameter=OC2}" Grid.Row="1" Grid.Column="3" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 0 0"/>
+                            <Image Height="24" Width="24" Source="{Binding LAN1, Converter={StaticResource systemImageConverter}, ConverterParameter=LAN1}" Grid.Row="2" Grid.Column="0" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 0 0"/>
+                            <Image Height="24" Width="24" Source="{Binding LAN2, Converter={StaticResource systemImageConverter}, ConverterParameter=LAN2}" Grid.Row="2" Grid.Column="1" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 0 0"/>
+                            <Image Height="24" Width="24" Source="{Binding LAN3, Converter={StaticResource systemImageConverter}, ConverterParameter=LAN3}" Grid.Row="2" Grid.Column="2" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 0 0"/>
+                            <Image Height="24" Width="24" Source="{Binding LAN4, Converter={StaticResource systemImageConverter}, ConverterParameter=LAN4}" Grid.Row="2" Grid.Column="3" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 0 0"/>
+                            <Image Height="24" Width="24" Source="{Binding Alarm_Control, Converter={StaticResource systemImageConverter}, ConverterParameter=Alarm_Control}" Grid.Row="3" Grid.Column="0" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 0 0"/>
+                            <Image Height="24" Width="24" Source="{Binding Alarm_In1, Converter={StaticResource systemImageConverter}, ConverterParameter=Alarm_In1}" Grid.Row="3" Grid.Column="1" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 0 0"/>
+                            <Image Height="24" Width="24" Source="{Binding Alarm_In2, Converter={StaticResource systemImageConverter}, ConverterParameter=Alarm_In2}" Grid.Row="3" Grid.Column="2" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 0 0"/>
+                        </Grid>
+                    </Border>
+                </telerik:RadFluidContentControl.Content>
+                <telerik:RadFluidContentControl.LargeContent>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Border Background="Black" Grid.Column="0">
+                            <Grid Margin="20 10">
+                                <StackPanel>
+                                    <TextBlock Margin="0 0 0 5"
+								           FontFamily="Segoe UI"
+								           FontSize="24"
+								           FontWeight="Light"
+								           Foreground="#fff"
+								           Text="中控系统状态：" />
+                                    <TextBlock FontSize="14" 
+										   Foreground="{telerik:Windows8Resource ResourceKey=AccentBrush}"
+								           Text="{Binding System, Converter={StaticResource switchingConverter}}" />
+                                    <Border Height="2"
+								        Margin="0 5" 
+										Background="{telerik:Windows8Resource ResourceKey=AccentBrush}" />
+                                    <TextBlock Margin="0 0 0 5"
+								           FontFamily="Segoe UI"
+								           FontSize="24"
+								           FontWeight="Light"
+								           Foreground="#fff"
+								           Text="投影机状态：" />
+                                    <TextBlock FontSize="14" 
+										   Foreground="{telerik:Windows8Resource ResourceKey=AccentBrush}"
+								           Text="{Binding Projector, Converter={StaticResource switchingConverter}}" />
+                                    <Border Height="2"
+								        Margin="0 5" 
+										Background="{telerik:Windows8Resource ResourceKey=AccentBrush}" />
+                                    <TextBlock Margin="0 0 0 5"
+								           FontFamily="Segoe UI"
+								           FontSize="24"
+								           FontWeight="Light"
+								           Foreground="#fff"
+								           Text="电动幕布状态：" />
+                                    <TextBlock FontSize="14" 
+										   Foreground="{telerik:Windows8Resource ResourceKey=AccentBrush}"
+								           Text="{Binding Projection_Screen, Converter={StaticResource switchingConverter}}" />
+                                    <Border Height="2"
+								        Margin="0 5" 
+										Background="{telerik:Windows8Resource ResourceKey=AccentBrush}" />
+                                    <TextBlock Margin="0 0 0 5"
+								           FontFamily="Segoe UI"
+								           FontSize="24"
+								           FontWeight="Light"
+								           Foreground="#fff"
+								           Text="VGA通道信息1：" />
+                                    <TextBlock FontSize="14" 
+										   Foreground="{telerik:Windows8Resource ResourceKey=AccentBrush}"
+								           Text="{Binding Projection_Signal}" />
+                                    <Border Height="2"
+								        Margin="0 5" 
+										Background="{telerik:Windows8Resource ResourceKey=AccentBrush}" />
+                                    <TextBlock Margin="0 0 0 5"
+								           FontFamily="Segoe UI"
+								           FontSize="24"
+								           FontWeight="Light"
+								           Foreground="#fff"
+								           Text="VGA通道信息2：" />
+                                    <TextBlock FontSize="14" 
+										   Foreground="{telerik:Windows8Resource ResourceKey=AccentBrush}"
+								           Text="{Binding Computer_Signal}" />
+                                    <Border Height="2"
+								        Margin="0 5" 
+										Background="{telerik:Windows8Resource ResourceKey=AccentBrush}" />
+                                    <TextBlock Margin="0 0 0 5"
+								           FontFamily="Segoe UI"
+								           FontSize="24"
+								           FontWeight="Light"
+								           Foreground="#fff"
+								           Text="电脑状态：" />
+                                    <TextBlock FontSize="14" 
+										   Foreground="{telerik:Windows8Resource ResourceKey=AccentBrush}"
+								           Text="{Binding Computer_Status, Converter={StaticResource switchingConverter}}" />
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+
+                        <Border Background="Black" Grid.Column="1">
+                            <Grid Margin="20 10">
+                                <StackPanel>
+                                    <TextBlock Margin="0 0 0 5"
+								           FontFamily="Segoe UI"
+								           FontSize="24"
+								           FontWeight="Light"
+								           Foreground="#fff"
+								           Text="电控锁状态：" />
+                                    <TextBlock FontSize="14" 
+										   Foreground="{telerik:Windows8Resource ResourceKey=AccentBrush}"
+								           Text="{Binding Lock_Status, Converter={StaticResource switchingConverter}}" />
+                                    <Border Height="2"
+								        Margin="0 5" 
+										Background="{telerik:Windows8Resource ResourceKey=AccentBrush}" />
+                                    <TextBlock Margin="0 0 0 5"
+								           FontFamily="Segoe UI"
+								           FontSize="24"
+								           FontWeight="Light"
+								           Foreground="#fff"
+								           Text="主电源继电器闭合状态：" />
+                                    <TextBlock FontSize="14" 
+										   Foreground="{telerik:Windows8Resource ResourceKey=AccentBrush}"
+								           Text="{Binding AC_Relay1, Converter={StaticResource switchingConverter}}" />
+                                    <Border Height="2"
+								        Margin="0 5" 
+										Background="{telerik:Windows8Resource ResourceKey=AccentBrush}" />
+                                    <TextBlock Margin="0 0 0 5"
+								           FontFamily="Segoe UI"
+								           FontSize="24"
+								           FontWeight="Light"
+								           Foreground="#fff"
+								           Text="报警输出：" />
+                                    <TextBlock FontSize="14" 
+										   Foreground="{telerik:Windows8Resource ResourceKey=AccentBrush}"
+								           Text="{Binding DC_Relay2, Converter={StaticResource switchingConverter}}" />
+                                    <Border Height="2"
+								        Margin="0 5" 
+										Background="{telerik:Windows8Resource ResourceKey=AccentBrush}" />
+                                    <TextBlock Margin="0 0 0 5"
+								           FontFamily="Segoe UI"
+								           FontSize="24"
+								           FontWeight="Light"
+								           Foreground="#fff"
+								           Text="光耦1输出状态：" />
+                                    <TextBlock FontSize="14" 
+										   Foreground="{telerik:Windows8Resource ResourceKey=AccentBrush}"
+								           Text="{Binding OC1, Converter={StaticResource switchingConverter}}" />
+                                    <Border Height="2"
+								        Margin="0 5" 
+										Background="{telerik:Windows8Resource ResourceKey=AccentBrush}" />
+                                    <TextBlock Margin="0 0 0 5"
+								           FontFamily="Segoe UI"
+								           FontSize="24"
+								           FontWeight="Light"
+								           Foreground="#fff"
+								           Text="光耦2输出状态：" />
+                                    <TextBlock FontSize="14" 
+										   Foreground="{telerik:Windows8Resource ResourceKey=AccentBrush}"
+								           Text="{Binding OC2, Converter={StaticResource switchingConverter}}" />
+                                    <Border Height="2"
+								        Margin="0 5" 
+										Background="{telerik:Windows8Resource ResourceKey=AccentBrush}" />
+                                    <TextBlock Margin="0 0 0 5"
+								           FontFamily="Segoe UI"
+								           FontSize="24"
+								           FontWeight="Light"
+								           Foreground="#fff"
+								           Text="交换机LAN1状态：" />
+                                    <TextBlock FontSize="14" 
+										   Foreground="{telerik:Windows8Resource ResourceKey=AccentBrush}"
+								           Text="{Binding LAN1}" />
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                        <Border Background="Black" Grid.Column="2">
+                            <Grid Margin="20 10">
+                                <StackPanel>
+                                    <TextBlock Margin="0 0 0 5"
+								           FontFamily="Segoe UI"
+								           FontSize="24"
+								           FontWeight="Light"
+								           Foreground="#fff"
+								           Text="交换机LAN2状态：" />
+                                    <TextBlock FontSize="14" 
+										   Foreground="{telerik:Windows8Resource ResourceKey=AccentBrush}"
+								           Text="{Binding LAN2}" />
+                                    <Border Height="2"
+								        Margin="0 5" 
+										Background="{telerik:Windows8Resource ResourceKey=AccentBrush}" />
+                                    <TextBlock Margin="0 0 0 5"
+								           FontFamily="Segoe UI"
+								           FontSize="24"
+								           FontWeight="Light"
+								           Foreground="#fff"
+								           Text="交换机LAN3状态：" />
+                                    <TextBlock FontSize="14" 
+										   Foreground="{telerik:Windows8Resource ResourceKey=AccentBrush}"
+								           Text="{Binding LAN3}" />
+                                    <Border Height="2"
+								        Margin="0 5" 
+										Background="{telerik:Windows8Resource ResourceKey=AccentBrush}" />
+                                    <TextBlock Margin="0 0 0 5"
+								           FontFamily="Segoe UI"
+								           FontSize="24"
+								           FontWeight="Light"
+								           Foreground="#fff"
+								           Text="交换机LAN4状态：" />
+                                    <TextBlock FontSize="14" 
+										   Foreground="{telerik:Windows8Resource ResourceKey=AccentBrush}"
+								           Text="{Binding LAN4}" />
+                                    <Border Height="2"
+								        Margin="0 5" 
+										Background="{telerik:Windows8Resource ResourceKey=AccentBrush}" />
+                                    <TextBlock Margin="0 0 0 5"
+								           FontFamily="Segoe UI"
+								           FontSize="24"
+								           FontWeight="Light"
+								           Foreground="#fff"
+								           Text="设备布防状态：" />
+                                    <TextBlock FontSize="14" 
+										   Foreground="{telerik:Windows8Resource ResourceKey=AccentBrush}"
+								           Text="{Binding Alarm_Control}" />
+                                    <Border Height="2"
+								        Margin="0 5" 
+										Background="{telerik:Windows8Resource ResourceKey=AccentBrush}" />
+                                    <TextBlock Margin="0 0 0 5"
+								           FontFamily="Segoe UI"
+								           FontSize="24"
+								           FontWeight="Light"
+								           Foreground="#fff"
+								           Text="布防传感器输入1：" />
+                                    <TextBlock FontSize="14" 
+										   Foreground="{telerik:Windows8Resource ResourceKey=AccentBrush}"
+								           Text="{Binding Alarm_In1}" />
+                                    <Border Height="2"
+								        Margin="0 5" 
+										Background="{telerik:Windows8Resource ResourceKey=AccentBrush}" />
+                                    <TextBlock Margin="0 0 0 5"
+								           FontFamily="Segoe UI"
+								           FontSize="24"
+								           FontWeight="Light"
+								           Foreground="#fff"
+								           Text="布防传感器输入2" />
+                                    <TextBlock FontSize="14" 
+										   Foreground="{telerik:Windows8Resource ResourceKey=AccentBrush}"
+								           Text="{Binding Alarm_In2}" />
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </telerik:RadFluidContentControl.LargeContent>
+            </telerik:RadFluidContentControl>
+        </DataTemplate>
+        <DataTemplate x:Key="headerTemplate">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock FontSize="14" Text="{Binding Name}" />
+            </StackPanel>
+        </DataTemplate>
+        <Style x:Key="ArrowHeaderButtonStyle" TargetType="telerik:RadToggleButton" BasedOn="{StaticResource ExpanderHeaderButtonStyle}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="telerik:RadToggleButton">
+                        <Border x:Name="BorderVisual" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}">
+                            <Grid x:Name="HeaderPanel" Background="Transparent" Margin="{TemplateBinding Padding}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Grid RenderTransformOrigin="0.5 0.5" x:Name="arrowPanel" Width="22" Height="22" Background="Transparent">
+                                    <Grid.RenderTransform>
+                                        <RotateTransform Angle="{Binding ExpandDirection, RelativeSource={RelativeSource AncestorType=telerik:RadExpander}, Converter={StaticResource ExpandDirectionToRotationAngleConverter}}"/>
+                                    </Grid.RenderTransform>
+                                    <Path x:Name="arrowDown"
+                                            Data="{StaticResource ThinArrowTop8x5}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Fill="{telerik:GreenResource ResourceKey=StrongBrush}"
+                                            Stretch="None"/>
+                                    <Path x:Name="arrowUp"
+                                            Data="{StaticResource ThinArrowBottom8x5}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Fill="{telerik:GreenResource ResourceKey=StrongBrush}"
+                                            Stretch="None"
+                                            Visibility="Collapsed"/>
+                                </Grid>
+
+                                <ContentPresenter x:Name="HeaderContent"
+                                    Grid.Column="1"
+                                    Margin="5 0"
+                                    Content="{TemplateBinding Content}"
+                                    ContentTemplate="{TemplateBinding ContentTemplate}"
+                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="arrowDown" Property="Fill" Value="{telerik:GreenResource ResourceKey=SelectedBrush}"/>
+                                <Setter TargetName="arrowUp" Property="Fill" Value="{telerik:GreenResource ResourceKey=SelectedBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="arrowDown" Property="Fill" Value="{telerik:GreenResource ResourceKey=SelectedBrush}"/>
+                                <Setter TargetName="arrowUp" Property="Fill" Value="{telerik:GreenResource ResourceKey=SelectedBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="arrowDown" Property="Visibility" Value="Collapsed"/>
+                                <Setter TargetName="arrowUp" Property="Visibility" Value="Visible"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="False">
+                                <Setter TargetName="arrowDown" Property="Visibility" Value="Visible"/>
+                                <Setter TargetName="arrowUp" Property="Visibility" Value="Collapsed"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="HeaderContent" Property="Opacity" Value="{telerik:GreenResource ResourceKey=DisabledOpacity}"/>
+                                <Setter TargetName="arrowDown" Property="Opacity" Value="{telerik:GreenResource ResourceKey=DisabledOpacity}"/>
+                                <Setter TargetName="arrowDown" Property="Fill" Value="{telerik:GreenResource ResourceKey=MarkerBrush}"/>
+                                <Setter TargetName="arrowUp" Property="Opacity" Value="{telerik:GreenResource ResourceKey=DisabledOpacity}"/>
+                                <Setter TargetName="arrowUp" Property="Fill" Value="{telerik:GreenResource ResourceKey=MarkerBrush}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <telerik:RadExpander x:Name="LeftNavigationExpander"
+                             Grid.Column="0" Grid.Row="0" 
+                             Margin="0 0 0 0"
+                             ExpandDirection="Left" 
+                             IsExpanded="True">
+            <local:ClassroomTreeView x:Name="ClassroomTree" Width="200"/>
+        </telerik:RadExpander>
+        <telerik:RadTileView Grid.Column="1"
+		                    ItemsSource="{Binding TerminalInfos}"
+		                    ItemTemplate="{StaticResource headerTemplate}"
+		                    ContentTemplate="{StaticResource contentTemplate}"
+                            ColumnWidth="200"
+                            RowHeight="180"
+                            MinimizedColumnWidth="200" MinimizedRowHeight="180"
+	                        IsAutoScrollingEnabled="True"
+		                    IsItemDraggingEnabled="True"
+		                    MaximizeMode="ZeroOrOne"
+		                    PreservePositionWhenMaximized="True"
+		                    TileStateChangeTrigger="DoubleClick"
+                            navigation:RadWindowInteropHelper.AllowTransparency="True"
+                            TileStateChanged="RadTileView_TileStateChanged"/>
+    </Grid>
+</UserControl>

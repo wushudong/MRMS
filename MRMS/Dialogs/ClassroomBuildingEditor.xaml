@@ -1,0 +1,21 @@
+﻿<telerik:RadWindow x:Class="MRMS.Dialogs.ClassroomBuildingEditor"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+        Style="{DynamicResource RadWindowStyle}"
+        HideMaximizeButton="True" 
+        HideMinimizeButton="True" 
+        Header="ClassroomBuildingEditor" Height="300" Width="366">
+    <Grid>
+        <telerik:RadDataForm x:Name="dataForm"
+                             ItemsSource="{Binding Items}"
+                             CurrentItem="{Binding SelectedItem, Mode=TwoWay}"
+							 AutoGenerateFields="True"
+                             AutoEdit="False"
+                             AutoCommit="False"
+                             CommandButtonsVisibility="Commit,Cancel"
+                             AutoGeneratingField="dataForm_AutoGeneratingField"
+                             CommitButtonContent="确定"
+                             CancelButtonContent="取消"/>
+    </Grid>
+</telerik:RadWindow>

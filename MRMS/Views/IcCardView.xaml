@@ -1,0 +1,167 @@
+﻿<UserControl x:Class="MRMS.Views.IcCardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             xmlns:navigation="clr-namespace:Telerik.Windows.Controls.Navigation;assembly=Telerik.Windows.Controls.Navigation"
+             xmlns:maskedInput="clr-namespace:Telerik.Windows.Controls.MaskedInput;assembly=Telerik.Windows.Controls.Input"
+             xmlns:local="clr-namespace:MRMS.Views"
+             xmlns:localConverters="clr-namespace:MRMS.Converters"
+             xmlns:localHelpers="clr-namespace:MRMS.Helpers"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <localConverters:IcCardTypeConverter x:Key="icCardTypeConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <telerik:RadToolBar Grid.Row="0">
+            <telerik:RadButton Content="添加" Command="{Binding AddCommand}" Width="50" Height="28" Margin="5"/>
+            <telerik:RadButton Content="修改" Command="{Binding EditCommand}" IsEnabled="{Binding CanEditItem}" Width="50" Height="28" Margin="5"/>
+            <telerik:RadButton Content="删除" Command="{Binding DeleteCommand}" IsEnabled="{Binding CanEditItem}" Width="50" Height="28" Margin="5"/>
+            <telerik:RadToolBarSeparator />
+            <telerik:Label Content="院系名称:"/>
+            <telerik:RadComboBox ItemsSource="{Binding Faculties}" 
+                DisplayMemberPath="FacultyName" 
+                SelectedValue="{Binding FacultyId}" 
+                SelectedValuePath="Id" 
+                EmptyText="请选择"
+				ClearSelectionButtonContent="清除"
+				ClearSelectionButtonVisibility="Visible"
+                Width="100" Height="28" Margin="5"/>
+            <telerik:Label Content="IC卡代码:"/>
+            <TextBox Text="{Binding HexCode}" CharacterCasing="Upper" Width="80" Height="28" Margin="5"/>
+            <telerik:Label Content="IC卡编号:"/>
+            <TextBox Text="{Binding CardNum}" CharacterCasing="Upper" Width="80" Height="28" Margin="5"/>
+            <telerik:Label Content="工号:"/>
+            <TextBox Text="{Binding PersonId}" CharacterCasing="Upper" Width="80" Height="28" Margin="5"/>
+            <telerik:Label Content="姓名:"/>
+            <TextBox Text="{Binding PersonName}" CharacterCasing="Upper" Width="80" Height="28" Margin="5"/>
+            <telerik:Label Content="性别:"/>
+            <telerik:RadComboBox ItemsSource="{Binding SexTypes}" 
+                DisplayMemberPath="Name" 
+                SelectedValue="{Binding Sex}" 
+                SelectedValuePath="Code" 
+                EmptyText="请选择"
+				ClearSelectionButtonContent="清除"
+				ClearSelectionButtonVisibility="Visible"
+                Width="80" Height="28" Margin="5"/>
+            <telerik:Label Content="工作单位:"/>
+            <TextBox Text="{Binding Career}" CharacterCasing="Upper" Width="80" Height="28" Margin="5"/>
+            <telerik:Label Content="邮箱:"/>
+            <TextBox Text="{Binding Email}" CharacterCasing="Upper" Width="80" Height="28" Margin="5"/>
+            <telerik:Label Content="电话:"/>
+            <TextBox Text="{Binding Phone}" CharacterCasing="Upper" Width="80" Height="28" Margin="5"/>
+            <telerik:Label Content="卡片类别:"/>
+            <telerik:RadComboBox ItemsSource="{Binding IcCardTypes}" 
+                DisplayMemberPath="Name" 
+                SelectedValue="{Binding CardType}" 
+                SelectedValuePath="Code" 
+                EmptyText="请选择"
+				ClearSelectionButtonContent="清除"
+				ClearSelectionButtonVisibility="Visible"
+                Width="80" Height="28" Margin="5"/>
+            <telerik:RadButton Content="查询" Command="{Binding QueryCommand}" Width="50" Height="28" Margin="5"/>
+        </telerik:RadToolBar>
+        <telerik:RadGridView x:Name="grid" Grid.Row="1" GroupRenderMode="Flat"
+							 ItemsSource="{Binding Items}"
+                             SelectedItem="{Binding SelectedItem}"
+							 IsFilteringAllowed="False"
+							 AutoGenerateColumns="False"
+							 CanUserFreezeColumns="True"
+                             ShowGroupPanel="False"
+							 FrozenColumnCount="3">
+            <telerik:RadGridView.Columns>
+                <telerik:GridViewColumn Header="修改" HeaderTextAlignment="Center">
+                    <telerik:GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <telerik:RadButton Content="修改" 
+                        Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}, Mode=FindAncestor}}"
+                        CommandParameter="{Binding}" />
+                        </DataTemplate>
+                    </telerik:GridViewColumn.CellTemplate>
+                </telerik:GridViewColumn>
+                <telerik:GridViewColumn Header="删除" HeaderTextAlignment="Center">
+                    <telerik:GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <telerik:RadButton Content="删除" 
+                        Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}, Mode=FindAncestor}}"
+                        CommandParameter="{Binding}" />
+                        </DataTemplate>
+                    </telerik:GridViewColumn.CellTemplate>
+                </telerik:GridViewColumn>
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding Faculty.FacultyName}"
+                                            HeaderTextAlignment="Center" 
+											Header="院系名称"
+											IsGroupable="False"
+                                            IsReadOnly="True"
+											Width="80" />
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding HexCode}"
+                                            HeaderTextAlignment="Center" 
+											Header="IC卡代码"
+											IsGroupable="False"
+                                            IsReadOnly="True"
+											Width="80" />
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding CardNum}"
+                                            HeaderTextAlignment="Center" 
+											Header="IC卡编号"
+											IsGroupable="False"
+                                            IsReadOnly="True"
+											Width="80" />
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding PersonId}" 
+                                            HeaderTextAlignment="Center"
+											Header="工号"
+											IsGroupable="False"
+                                            IsReadOnly="True"
+											Width="80" />
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding PersonName}"
+                                            HeaderTextAlignment="Center" 
+											Header="姓名"
+											IsGroupable="False"
+                                            IsReadOnly="True"
+											Width="80" />
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding Sex}"
+                                            HeaderTextAlignment="Center" 
+											Header="性别"
+											IsGroupable="False"
+                                            IsReadOnly="True"
+											Width="70" />
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding Career}"
+                                            HeaderTextAlignment="Center" 
+											Header="工作单位"
+											IsGroupable="False"
+                                            IsReadOnly="True"
+											Width="80" />
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding Email}"
+                                            HeaderTextAlignment="Center" 
+											Header="邮箱"
+											IsGroupable="False"
+                                            IsReadOnly="True"
+											Width="80" />
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding Phone}"
+                                            HeaderTextAlignment="Center" 
+											Header="电话"
+											IsGroupable="False"
+                                            IsReadOnly="True"
+											Width="80" />
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding CardType}"
+                                            HeaderTextAlignment="Center" 
+											Header="卡片类别"
+											IsGroupable="False"
+                                            IsReadOnly="True"
+											Width="80">
+                    <telerik:GridViewDataColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding CardType, Converter={StaticResource icCardTypeConverter}}"/>
+                        </DataTemplate>
+                    </telerik:GridViewDataColumn.CellTemplate>
+                </telerik:GridViewDataColumn>
+            </telerik:RadGridView.Columns>
+
+        </telerik:RadGridView>
+    </Grid>
+</UserControl>

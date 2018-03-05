@@ -1,0 +1,105 @@
+﻿<telerik:RadWindow x:Class="MRMS.Dialogs.ClassAndGradeEditor"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+        Style="{DynamicResource RadWindowStyle}"
+        HideMaximizeButton="True" 
+        HideMinimizeButton="True" 
+        Header="ClassAndGradeEditor" Height="300" Width="300">
+    <Grid>
+        <telerik:RadDataForm x:Name="dataForm"
+                             ItemsSource="{Binding Items}"
+                             CurrentItem="{Binding SelectedItem, Mode=TwoWay}"
+							 AutoGenerateFields="False"
+                             AutoEdit="False"
+                             AutoCommit="False"
+                             CommandButtonsVisibility="Commit,Cancel"
+                             CommitButtonContent="确定"
+                             CancelButtonContent="取消">
+            <!--<telerik:RadDataForm.CommandProvider>
+                <localProviders:ClassroomCommandProvider DataForm="{Binding ElementName=dataForm}"/>
+            </telerik:RadDataForm.CommandProvider>-->
+            <telerik:RadDataForm.ReadOnlyTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <telerik:DataFormComboBoxField DataMemberBinding="{Binding Faculty, Mode=TwoWay}"
+												   Label="院系名称"
+                                                   ItemsSource="{Binding DataContext.Faculties, RelativeSource={RelativeSource AncestorType={x:Type telerik:RadDataForm}, Mode=FindAncestor}}"
+                                                   DisplayMemberPath="FacultyName"
+												   IsReadOnly="True">
+                        </telerik:DataFormComboBoxField>
+                        <telerik:DataFormDataField DataMemberBinding="{Binding MajorName, Mode=TwoWay}"
+												   Label="专业名称"
+												   IsReadOnly="True" />
+                        <telerik:DataFormDataField DataMemberBinding="{Binding ClassAndGradeName, Mode=TwoWay}"
+												   Label="班级名称"
+												   IsReadOnly="True" />
+                        <telerik:DataFormDataField DataMemberBinding="{Binding NumberOfStudents, Mode=TwoWay}"
+												   Label="班级人数"
+												   IsReadOnly="True" />
+                        <telerik:DataFormDataField DataMemberBinding="{Binding EntranceDate, Mode=TwoWay}"
+												   Label="入学日期"
+												   IsReadOnly="True" />
+                        <telerik:DataFormDataField DataMemberBinding="{Binding GraduationDate, Mode=TwoWay}"
+												   Label="毕业日期"
+												   IsReadOnly="True" />
+                    </StackPanel>
+                </DataTemplate>
+            </telerik:RadDataForm.ReadOnlyTemplate>
+            <telerik:RadDataForm.EditTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <telerik:DataFormComboBoxField DataMemberBinding="{Binding Faculty, Mode=TwoWay}"
+												   Label="教学楼"
+                                                   ItemsSource="{Binding DataContext.Faculties, RelativeSource={RelativeSource AncestorType={x:Type telerik:RadDataForm}, Mode=FindAncestor}}"
+                                                   DisplayMemberPath="FacultyName"
+												   IsReadOnly="False">
+                        </telerik:DataFormComboBoxField>
+                        <telerik:DataFormDataField DataMemberBinding="{Binding MajorName, Mode=TwoWay}"
+												   Label="专业名称"
+												   IsReadOnly="False" />
+                        <telerik:DataFormDataField DataMemberBinding="{Binding ClassAndGradeName, Mode=TwoWay}"
+												   Label="班级名称"
+												   IsReadOnly="False" />
+                        <telerik:DataFormDataField DataMemberBinding="{Binding NumberOfStudents, Mode=TwoWay}"
+												   Label="班级人数"
+												   IsReadOnly="False" />
+                        <telerik:DataFormDataField DataMemberBinding="{Binding EntranceDate, Mode=TwoWay}"
+												   Label="入学日期"
+												   IsReadOnly="False" />
+                        <telerik:DataFormDataField DataMemberBinding="{Binding GraduationDate, Mode=TwoWay}"
+												   Label="毕业日期"
+												   IsReadOnly="False" />
+                    </StackPanel>
+                </DataTemplate>
+            </telerik:RadDataForm.EditTemplate>
+            <telerik:RadDataForm.NewItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <telerik:DataFormComboBoxField DataMemberBinding="{Binding Faculty, Mode=TwoWay}"
+												   Label="教学楼"
+                                                   ItemsSource="{Binding DataContext.Faculties, RelativeSource={RelativeSource AncestorType={x:Type telerik:RadDataForm}, Mode=FindAncestor}}"
+                                                   DisplayMemberPath="FacultyName"
+												   IsReadOnly="False">
+                        </telerik:DataFormComboBoxField>
+                        <telerik:DataFormDataField DataMemberBinding="{Binding MajorName, Mode=TwoWay}"
+												   Label="专业名称"
+												   IsReadOnly="False" />
+                        <telerik:DataFormDataField DataMemberBinding="{Binding ClassAndGradeName, Mode=TwoWay}"
+												   Label="班级名称"
+												   IsReadOnly="False" />
+                        <telerik:DataFormDataField DataMemberBinding="{Binding NumberOfStudents, Mode=TwoWay}"
+												   Label="班级人数"
+												   IsReadOnly="False" />
+                        <telerik:DataFormDataField DataMemberBinding="{Binding EntranceDate, Mode=TwoWay}"
+												   Label="入学日期"
+												   IsReadOnly="False" />
+                        <telerik:DataFormDataField DataMemberBinding="{Binding GraduationDate, Mode=TwoWay}"
+												   Label="毕业日期"
+												   IsReadOnly="False" />
+                    </StackPanel>
+                </DataTemplate>
+            </telerik:RadDataForm.NewItemTemplate>
+        </telerik:RadDataForm>
+    </Grid>
+</telerik:RadWindow>
