@@ -11,6 +11,27 @@ using Telerik.Windows.Controls;
 
 namespace MRMS.ViewModels
 {
+    public static class TileViewCommands
+    {
+        private static RoutedUICommand toggleTileState;
+
+        /// <summary>
+        /// Gets value that represents the maximize window command.
+        /// </summary>
+        /// <value>The maximize command.</value>
+        public static RoutedUICommand ToggleTileState
+        {
+            get
+            {
+                if (toggleTileState == null)
+                {
+                    toggleTileState = new RoutedUICommand("Toggle TileState", "ToggleTileState", typeof(TileViewCommands));
+                }
+
+                return toggleTileState;
+            }
+        }
+    }
     public class ClassroomVideoViewModel : ViewModelBase, IClose
     {
         private ISystemConfig systemConfig;

@@ -111,6 +111,33 @@ namespace MRMS.Helpers
             return true;
         }
 
+        public JObject Get(string url, Dictionary<string, dynamic> parameters)
+        {
+            JObject result = null;
+            var request = new RestRequest(url, Method.GET);
+            if (null != parameters)
+            {
+                foreach (var parameter in parameters)
+                {
+                    request.AddParameter(parameter.Key, parameter.Value);
+                }
+            }
+            var response = client.Execute(request);
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                throw (new Exception(response.StatusDescription));
+            }
+            try
+            {
+                result = JObject.Parse(response.Content);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            return result;
+        }
+
         public JObject Get(string url, Dictionary<string, string> parameters)
         {
             JObject result = null;

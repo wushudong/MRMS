@@ -31,8 +31,18 @@ namespace MRMS.Views
             VlcPlayer vlcPlayer = sender as VlcPlayer;
             if (null == vlcPlayer || null == vlcPlayer.DataContext as ClassRoom) return;
             (vlcPlayer.DataContext as ClassRoom).VlcPlayer = vlcPlayer;
+            /*
+            System.Timers.Timer timer = new System.Timers.Timer(50) { AutoReset = false };
+            timer.Elapsed += delegate {
+                timer.Dispose();
+                vlcPlayer.LoadMedia((vlcPlayer.DataContext as ClassRoom).VedioAddress);
+                vlcPlayer.Play();
+                vlcPlayer.IsMute = true;
+            };
+            */
             System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
-            timer.Interval = 50;
+            timer.Start();
+            timer.Interval = 1;
             timer.Tick += (s, f) =>
             {
                 timer.Stop();
@@ -40,6 +50,26 @@ namespace MRMS.Views
                 vlcPlayer.Play();
             };
             timer.Start();
+            System.Windows.Forms.Timer timer1 = new System.Windows.Forms.Timer();
+            timer1.Interval = 300;
+            timer1.Tick += (s, f) =>
+            {
+                timer1.Stop();
+                vlcPlayer.IsMute = true;
+            };
+            timer1.Start();
+        }
+
+        private void CommandBinding_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+        {
+            ClassRoom classRoom = e.Parameter as ClassRoom;
+            if (null != classRoom)
+            {
+                if (null != classRoom.VlcPlayer)
+                {
+                    classRoom.VlcPlayer.IsMute = !classRoom.VlcPlayer.IsMute;
+                }
+            }
         }
     }
 }

@@ -12,9 +12,14 @@
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:MRMS.Views"
         xmlns:localConverters="clr-namespace:MRMS.Converters"
+        xmlns:localViewModel="clr-namespace:MRMS.ViewModels"
         mc:Ignorable="d" 
         d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.CommandBindings>
+        <CommandBinding Command="localViewModel:TileViewCommands.ToggleTileState" Executed="CommandBinding_Executed"/>
+    </UserControl.CommandBindings>
     <UserControl.Resources>
+        <localConverters:NegateBooleanConverter x:Key="InverseBoolConverter"/>
         <localConverters:VideoPlayControlVisibilityConverter x:Key="videoPlayControlVisibilityConverter" />
         <localConverters:VideoPauseControlVisibilityConverter x:Key="videoPauseControlVisibilityConverter" />
         <x:Array Type="{x:Type system:String}" x:Key="VlcOptions">
@@ -25,6 +30,132 @@
             <system:String>--no-sub-autodetect-file</system:String>
             <system:String>--loop</system:String>
         </x:Array>
+        <Style x:Key="soundToggleStyle" TargetType="telerik:RadToggleButton">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="Width" Value="17"/>
+            <Setter Property="Height" Value="17"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="telerik:RadToggleButton">
+                        <Grid Background="Transparent" SnapsToDevicePixels="True">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="FocusStates">
+                                    <VisualState x:Name="Focused"/>
+                                    <VisualState x:Name="Unfocused"/>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SoundIcon" Storyboard.TargetProperty="Fill">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource TileView_ButtonBackground_MouseOver}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MuteIcon" Storyboard.TargetProperty="Fill">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource TileView_ButtonBackground_MouseOver}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SoundIcon" Storyboard.TargetProperty="Stroke">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource TileView_ButtonOuterBorder_MouseOver}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MuteIcon" Storyboard.TargetProperty="Stroke">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource TileView_ButtonOuterBorder_MouseOver}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SoundIcon" Storyboard.TargetProperty="Fill">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource TileView_ButtonBackground_Pressed}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MuteIcon" Storyboard.TargetProperty="Fill">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource TileView_ButtonBackground_Pressed}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SoundIcon" Storyboard.TargetProperty="Stroke">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource TileView_ButtonOuterBorder_Pressed}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                           <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MuteIcon" Storyboard.TargetProperty="Stroke">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource TileView_ButtonOuterBorder_Pressed}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SoundIcon" Storyboard.TargetProperty="Visibility">
+                                                    <DiscreteObjectKeyFrame KeyTime="0">
+                                                        <DiscreteObjectKeyFrame.Value>
+                                                            <Visibility>Collapsed</Visibility>
+                                                        </DiscreteObjectKeyFrame.Value>
+                                                    </DiscreteObjectKeyFrame>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MuteIcon" Storyboard.TargetProperty="Visibility">
+                                                    <DiscreteObjectKeyFrame KeyTime="0">
+                                                        <DiscreteObjectKeyFrame.Value>
+                                                            <Visibility>Collapsed</Visibility>
+                                                        </DiscreteObjectKeyFrame.Value>
+                                                    </DiscreteObjectKeyFrame>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="CheckStates">
+                                    <VisualState x:Name="Checked">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Sound" Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <Visibility>Collapsed</Visibility>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Mute" Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <Visibility>Visible</Visibility>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Unchecked">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Sound" Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <Visibility>Visible</Visibility>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Mute" Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <Visibility>Collapsed</Visibility>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Indeterminate"/>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Grid x:Name="Sound" Background="Transparent" Height="13" Width="13">
+                                <ToolTipService.ToolTip>
+                                    <ToolTip Content="关闭声音"/>
+                                </ToolTipService.ToolTip>
+                                <Path x:Name="SoundIcon" Fill="#FFC5C2C2" Stretch="Fill" Data="M721.607 800.752v-57.288c104.34-25.188 181.875-119.144 181.875-231.273 0-112.13-77.535-206.087-181.875-231.275v-57.287C857.093 249.782 959.445 369 959.445 512.191c-0.001 143.192-102.353 262.41-237.838 288.561z m97.934-288.56c0 75.471-54.29 138.217-125.916 151.388v-57.486c40.449-12.048 69.954-49.52 69.954-93.903 0-44.385-29.505-81.856-69.954-93.904V360.8c71.626 13.171 125.916 75.917 125.916 151.391zM496.067 938.604c-68.355-40.717-145.303-95.003-222.158-152.347v-8.11c-7.727 0-13.99-6.267-13.99-13.997h-55.96c-77.27 0-139.907-62.67-139.907-139.977V400.209c0-77.309 62.637-139.978 139.906-139.978h55.962c0-7.732 6.262-13.998 13.99-13.998v-3.793c77.89-59.49 154.695-116.906 222.636-159.152 76.288-47.435 127.127-1.044 127.127 78.511v694.425c0 96.751-50.213 128.48-127.606 82.381zM259.92 316.222h-55.962c-46.362 0-83.944 37.6-83.944 83.987v223.964c0 46.383 37.582 83.986 83.944 83.986h55.962V316.222z m307.623-112.984c0-49.544-24.086-67.6-62.8-46.05-47.098 26.217-115.674 78.148-188.862 135.424v440.392c74 56.966 143.62 108.547 190.436 134.607 37.79 21.037 61.226 1.36 61.226-49.89V203.239z"/>
+                            </Grid>
+                            <Grid x:Name="Mute" Visibility="Collapsed" Background="Transparent" Height="13" Width="13">
+                                <ToolTipService.ToolTip>
+                                    <ToolTip Content="打开声音"/>
+                                </ToolTipService.ToolTip>
+                                <Path x:Name="MuteIcon" Fill="#FFC5C2C2" Stretch="Fill" Data="M110.424 866.206L858.81 117.454l39.53 39.55-748.387 748.75-39.53-39.548z m456.682-663.225c0-49.491-24.06-67.527-62.735-46-47.045 26.187-115.555 78.068-188.665 135.283v249.873l-55.904 55.932V315.844h-55.904c-46.315 0-83.857 37.562-83.857 83.898v223.726c0 31.009 16.86 58.022 41.867 72.543l-40.378 40.398c-34.782-25.434-57.393-66.536-57.393-112.941V399.742c0-77.227 62.572-139.83 139.76-139.83h55.905c0-7.723 6.258-13.983 13.975-13.983v-3.787c77.807-59.426 154.535-116.784 222.407-158.985 76.207-47.384 126.995-1.043 126.995 78.428v72.93l-56.072 56.099V202.98z m-61.163 663.666c37.753 21.015 61.163 1.358 61.163-49.836v-223.71l56.072-56.099v318.27c0 96.648-50.16 128.343-127.474 82.292-50.95-30.347-106.679-68.273-163.582-109.364l47.492-47.516c49.118 36.61 93.389 67.628 126.33 85.963zM762.94 511.605c0-31.255-14.69-59.016-37.492-76.923l39.712-39.73c32.852 28.173 53.683 69.952 53.683 116.653 0 75.383-54.244 137.983-125.786 151.15v-57.376c40.403-12.04 69.883-49.441 69.883-93.774z m139.758 0c0-69.879-30.179-132.613-78.187-176.032l39.618-39.638c58.08 53.608 94.474 130.358 94.474 215.671 0 143.03-102.26 262.036-237.593 288.171v-57.356c104.194-25.189 181.688-118.834 181.688-230.816z"/>
+                            </Grid>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <Style x:Key="TileItemHeaderStyle" TargetType="Telerik_Windows_Controls_TileView:TileViewItemHeader" BasedOn="{StaticResource TileViewItemHeaderStyle}">
             <Setter Property="Template">
                 <Setter.Value>
@@ -72,7 +203,11 @@
                                             ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"/>
                                     </Border>
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-                                    <telerik:RadToggleButton x:Name="mute" FontSize="10" Content="静音" Width="35" Height="17"/>
+                                    <telerik:RadToggleButton x:Name="MuteToggleButton" IsChecked="{Binding Path=DataContext.IsMute, RelativeSource={RelativeSource TemplatedParent} }"
+                                        Style="{StaticResource soundToggleStyle}"/>
+                                        <telerik:RadSlider Width="50" IsEnabled="{Binding Path=DataContext.IsMute, RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource InverseBoolConverter} }"
+                                        Maximum="200" Minimum="{Binding MinimizedColumnWidth}"
+								        VerticalAlignment="Center" Value="{Binding Path=DataContext.Volume, RelativeSource={RelativeSource TemplatedParent} }" Margin="10 0 0 0"/>
                                     <telerik:RadToggleButton x:Name="MaximizeToggleButton"
                                         Style="{StaticResource maximizeToggleStyle}"
                                         Command="{x:Static Telerik_Windows_Controls_TileView:TileViewCommands.ToggleTileState}"/>
@@ -91,9 +226,8 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <metaVlcWpf:VlcPlayer x:Name="vlcPlayer" VlcOption="{StaticResource VlcOptions}"
-                                      LibVlcPath="libvlc\x86" EndBehavior="Repeat"
-                                      StateChanged="vlcPlayer_StateChanged" Initialized="vlcPlayer_Initialized"
-                                      Volume="0"/>
+                                      LibVlcPath="libvlc\x86" EndBehavior="Repeat" IsMute="True"
+                                      StateChanged="vlcPlayer_StateChanged" Initialized="vlcPlayer_Initialized" Volume="0"/>
                 <!--<StackPanel Grid.Row="1" HorizontalAlignment="Center" Orientation="Horizontal">
                     <Grid Margin="5 5 5 0" Width="30" Height="30" Visibility="{Binding VedioState, Mode=OneWay, Converter={StaticResource videoPlayControlVisibilityConverter}}">
                         <telerik:EventToCommandBehavior.EventBindings>
